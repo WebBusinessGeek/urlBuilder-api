@@ -5,12 +5,12 @@ import java.util.HashMap;
 
 @Component
 public class URLCreationLogic {
-    final String BACKSLASH = "/";
+    final String FORWARD_SLASH = "/";
 
     public String createHREF(URL url) {
-        return removeEndBackslash(createOrigin(url))
-                + BACKSLASH
-                + removeFrontBackslash(createPathname(url))
+        return removeTrailingBackslash(createOrigin(url))
+                + FORWARD_SLASH
+                + removeLeadingForwardSlash(createPathname(url))
                 + createSearchParams(url)
                 + createCustomParams(url);
     }
@@ -76,17 +76,17 @@ public class URLCreationLogic {
         return customParams;
     }
 
-    public String removeEndBackslash(String removeFrom) {
+    public String removeTrailingBackslash(String removeFrom) {
         String lastChar = removeFrom.substring(removeFrom.length() - 1);
-        if(lastChar.equals(BACKSLASH)) {
+        if(lastChar.equals(FORWARD_SLASH)) {
             return removeFrom.substring(0, removeFrom.length() - 1);
         }
         return removeFrom;
     }
 
-    public String removeFrontBackslash(String removeFrom) {
+    public String removeLeadingForwardSlash(String removeFrom) {
         String firstChar = removeFrom.substring(0, 1);
-        if(firstChar.equals(BACKSLASH)) {
+        if(firstChar.equals(FORWARD_SLASH)) {
             return removeFrom.substring(1, removeFrom.length());
         }
         return removeFrom;
