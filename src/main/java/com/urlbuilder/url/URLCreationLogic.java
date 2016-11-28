@@ -8,9 +8,9 @@ public class URLCreationLogic {
     final String FORWARD_SLASH = "/";
 
     public String createHREF(URL url) {
-        return removeTrailingBackslash(createOrigin(url))
+        return removeTrailingForwardSlashes(createOrigin(url))
                 + FORWARD_SLASH
-                + removeLeadingForwardSlash(createPathname(url))
+                + removeLeadingForwardSlashes(createPathname(url))
                 + createSearchParams(url)
                 + createCustomParams(url);
     }
@@ -76,18 +76,26 @@ public class URLCreationLogic {
         return customParams;
     }
 
-    public String removeTrailingBackslash(String removeFrom) {
-        String lastChar = removeFrom.substring(removeFrom.length() - 1);
-        if(lastChar.equals(FORWARD_SLASH)) {
-            return removeFrom.substring(0, removeFrom.length() - 1);
+    public String removeTrailingForwardSlashes(String removeFrom) {
+        boolean noTrailingSlashes = false;
+        while(!noTrailingSlashes) {
+            String lastChar = removeFrom.substring(removeFrom.length() - 1);
+            if(lastChar.equals(FORWARD_SLASH))
+                removeFrom = removeFrom.substring(0, removeFrom.length() - 1);
+            else
+                noTrailingSlashes = true;
         }
         return removeFrom;
     }
 
-    public String removeLeadingForwardSlash(String removeFrom) {
-        String firstChar = removeFrom.substring(0, 1);
-        if(firstChar.equals(FORWARD_SLASH)) {
-            return removeFrom.substring(1, removeFrom.length());
+    public String removeLeadingForwardSlashes(String removeFrom) {
+        boolean noForwardSlashes = false;
+        while(!noForwardSlashes) {
+            String firstChar = removeFrom.substring(0, 1);
+            if(firstChar.equals(FORWARD_SLASH))
+                removeFrom = removeFrom.substring(1, removeFrom.length());
+            else
+                noForwardSlashes = true;
         }
         return removeFrom;
     }
