@@ -13,6 +13,21 @@ public class URL {
     public boolean isSearchCampaign;
     private HashMap<String, String> customParameters;
 
+    URL(String protocol, String domainName, String landingPage,
+            String source, String medium, String campaignName,
+            String utmParamPrefix, boolean isSearchCampaign, HashMap<String,
+            String> customParameters) {
+        this.setProtocol(protocol);
+        this.setDomainName(domainName);
+        this.setLandingPage(landingPage);
+        this.setSource(source);
+        this.setMedium(medium);
+        this.setCampaignName(campaignName);
+        this.setUtmParamPrefix(utmParamPrefix);
+        this.isSearchCampaign = isSearchCampaign;
+        this.setCustomParameters(customParameters);
+    }
+
     public HashMap<String, String> getCustomParameters() {
         return customParameters;
     }
