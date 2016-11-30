@@ -63,7 +63,7 @@ public class URLCreationLogicTest {
 
     @Test
     /**
-     * it should remove all trailing forward slashes
+     * it should remove all trailing forward slashes.
      */
     public void removeTrailingForwardSlashesB() {
         String mockLeadingForwardSlash = "something/something///";
@@ -75,11 +75,11 @@ public class URLCreationLogicTest {
 
     @Test
     /**
-     * it should add a single custom parameter
+     * it should add a single custom parameter.
      */
     public void createCustomParamsA() {
         HashMap<String, String> fakeParam
-                = new HashMap<String, String>();
+                = new HashMap<>();
         fakeParam.put("someParamKey", "someParamValue");
 
         URL url = new URL(
@@ -101,11 +101,11 @@ public class URLCreationLogicTest {
 
     @Test
     /**
-     * it should add multiple custom parameters
+     * it should add multiple custom parameters.
      */
     public void createCustomParamsB() {
         HashMap<String, String> fakeParams
-                = new HashMap<String, String>();
+                = new HashMap<>();
         fakeParams.put("someParamKey", "someParamValue");
         fakeParams.put("someParamKey2", "someParamValue2");
         fakeParams.put("someParamKey3", "someParamValue3");
@@ -133,7 +133,7 @@ public class URLCreationLogicTest {
 
     @Test
     /**
-     * it should add custom UTM prefix delimiter if its present
+     * it should add custom UTM prefix delimiter if its present.
      */
     public void createUTMParamA() {
         URL url = new URL(
@@ -176,4 +176,139 @@ public class URLCreationLogicTest {
                 .getSource());
         Assert.assertEquals(expected, actual);
     }
+
+    @Test
+    /**
+     * it should not query if no params present.
+     */
+    public void createSearchParamsA() {
+        URL url = new URL(
+                "http",
+                "www.example.com",
+                "/some-landing-page",
+                null,
+                null,
+                null,
+                null,
+                false,
+                null
+        );
+
+        String expected = "";
+        String actual = testInstance.createSearchParams(url);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    /**
+     * it should add source if source present.
+     */
+    public void createSearchParamsB() {
+        URL url = new URL(
+                "http",
+                "www.example.com",
+                "/some-landing-page",
+                "facebook",
+                null,
+                null,
+                null,
+                false,
+                null
+        );
+
+        String expected = "?utm_source=facebook";
+        String actual = testInstance.createSearchParams(url);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    /**
+     * it should add an ampersand when multiple params present.
+     */
+    public void createSearchParamsC() {
+        URL url = new URL(
+                "http",
+                "www.example.com",
+                "/some-landing-page",
+                "facebook",
+                "facebookAds",
+                null,
+                null,
+                false,
+                null
+        );
+
+        String expected = "?utm_source=facebook&utm_medium=facebookAds";
+        String actual = testInstance.createSearchParams(url);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    /**
+     * it should add term parameter if url is for search campaign.
+     */
+    public void createSearchParamsD() {
+        URL url = new URL(
+                "http",
+                "www.example.com",
+                "/some-landing-page",
+                null,
+                null,
+                null,
+                null,
+                true,
+                null
+        );
+
+        String expected = "?utm_term={term}";
+        String actual = testInstance.createSearchParams(url);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    /**
+     * it should return properly formatted origin.
+     */
+    public void createOriginA() {
+        URL url = new URL(
+                "http",
+                "www.example.com",
+                "/some-landing-page",
+                null,
+                null,
+                null,
+                null,
+                true,
+                null
+        );
+
+        String expected = "http://www.example.com";
+        String actual = testInstance.createOrigin(url);
+        Assert.assertEquals(expected, actual);
+    }
+
+    @Test
+    /**
+     * it should return properly formatted HREF.
+     */
+    public void createHREFA() {
+        URL url = new URL(
+                "https",
+                "www.example.com/",
+                "/some-landing-page/",
+                "google",
+                "adwords",
+                "some-campaign",
+                null,
+                true,
+                null
+        );
+
+        String expected = "https://www.example.com"
+                + "/some-landing-page/?utm_source=google&utm_medium=adwords"
+                + "&utm_campaign=some-campaign&utm_term={term}";
+        String actual = testInstance.createHREF(url);
+        Assert.assertEquals(expected, actual);
+    }
+
 }

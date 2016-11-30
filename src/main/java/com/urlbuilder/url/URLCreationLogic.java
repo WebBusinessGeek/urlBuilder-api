@@ -46,7 +46,10 @@ public class URLCreationLogic {
         if(url.isSearchCampaign) {
             search += createUTMParam(url, UTM_TERM, DYNAMIC_SEARCH_PARAMETER);
         }
-        return search;
+        if(search.equals("?"))
+            return "";
+        else
+            return search.replaceFirst("[&]", "");
     }
 
     public String createUTMParam(URL url, String paramKey, String paramValue) {
