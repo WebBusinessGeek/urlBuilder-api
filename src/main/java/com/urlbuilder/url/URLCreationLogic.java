@@ -27,7 +27,7 @@ public class URLCreationLogic {
     }
 
     public String createSearchParams(URL url) {
-        final String DYNAMIC_SEARCH_PARAMETER = "{term}";
+        final String DYNAMIC_SEARCH_TERM_PARAMETER = "{term}";
         final String UTM_SOURCE = "source";
         final String UTM_MEDIUM = "medium";
         final String UTM_CAMPAIGN_NAME = "campaign";
@@ -41,10 +41,12 @@ public class URLCreationLogic {
             search +=  createUTMParam(url, UTM_MEDIUM, url.getMedium());
         }
         if(url.getCampaignName() != null) {
-            search += createUTMParam(url, UTM_CAMPAIGN_NAME, url.getCampaignName());
+            search += createUTMParam(url,
+                    UTM_CAMPAIGN_NAME, url.getCampaignName());
         }
         if(url.isSearchCampaign) {
-            search += createUTMParam(url, UTM_TERM, DYNAMIC_SEARCH_PARAMETER);
+            search += createUTMParam(url,
+                    UTM_TERM, DYNAMIC_SEARCH_TERM_PARAMETER);
         }
         if(search.equals("?"))
             return "";

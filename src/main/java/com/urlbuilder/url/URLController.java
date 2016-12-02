@@ -21,5 +21,4 @@ public class URLController {
         return urlService.createUrl(url);
     }
 
-
 }

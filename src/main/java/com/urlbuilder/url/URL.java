@@ -13,6 +13,10 @@ public class URL {
     public boolean isSearchCampaign;
     private HashMap<String, String> customParameters;
 
+    URL(){
+
+    }
+
     URL(String protocol, String domainName, String landingPage,
             String source, String medium, String campaignName,
             String utmParamPrefix, boolean isSearchCampaign, HashMap<String,
